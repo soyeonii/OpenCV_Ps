@@ -1,0 +1,922 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+  <class>MainWindow</class>
+  <widget class="QMainWindow" name="MainWindow">
+    <property name="geometry">
+      <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>1400</width>
+        <height>920</height>
+      </rect>
+    </property>
+    <property name="windowTitle">
+      <string>MainWindow</string>
+    </property>
+    <widget class="QWidget" name="centralwidget">
+      <widget class="QWidget" name="horizontalLayoutWidget">
+        <property name="geometry">
+          <rect>
+            <x>9</x>
+            <y>9</y>
+            <width>1381</width>
+            <height>851</height>
+          </rect>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+            <spacer name="horizontalSpacer">
+              <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+                <size>
+                  <width>40</width>
+                  <height>20</height>
+                </size>
+              </property>
+            </spacer>
+          </item>
+          <item>
+            <layout class="QVBoxLayout" name="verticalLayout_3">
+              <item>
+                <spacer name="verticalSpacer">
+                  <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                    <size>
+                      <width>20</width>
+                      <height>40</height>
+                    </size>
+                  </property>
+                </spacer>
+              </item>
+              <item>
+                <widget class="QLabel" name="imageLabel">
+                  <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                    </sizepolicy>
+                  </property>
+                  <property name="inputMethodHints">
+                    <set>Qt::ImhNone</set>
+                  </property>
+                  <property name="text">
+                    <string />
+                  </property>
+                  <property name="pixmap">
+                    <pixmap>images/empty.png</pixmap>
+                  </property>
+                </widget>
+              </item>
+              <item>
+                <spacer name="verticalSpacer_2">
+                  <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                    <size>
+                      <width>20</width>
+                      <height>40</height>
+                    </size>
+                  </property>
+                </spacer>
+              </item>
+            </layout>
+          </item>
+          <item>
+            <spacer name="horizontalSpacer_2">
+              <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeType">
+                <enum>QSizePolicy::Expanding</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+                <size>
+                  <width>40</width>
+                  <height>20</height>
+                </size>
+              </property>
+            </spacer>
+          </item>
+          <item>
+            <layout class="QVBoxLayout" name="verticalLayout_2">
+              <item>
+                <spacer name="verticalSpacer_4">
+                  <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                    <size>
+                      <width>20</width>
+                      <height>40</height>
+                    </size>
+                  </property>
+                </spacer>
+              </item>
+              <item>
+                <layout class="QHBoxLayout" name="horizontalLayout">
+                  <item>
+                    <spacer name="horizontalSpacer_3">
+                      <property name="orientation">
+                        <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                        <size>
+                          <width>40</width>
+                          <height>20</height>
+                        </size>
+                      </property>
+                    </spacer>
+                  </item>
+                  <item>
+                    <widget class="QPushButton" name="paletteButton">
+                      <property name="cursor">
+                        <cursorShape>PointingHandCursor</cursorShape>
+                      </property>
+                      <property name="mouseTracking">
+                        <bool>false</bool>
+                      </property>
+                      <property name="text">
+                        <string />
+                      </property>
+                      <property name="icon">
+                        <iconset>
+                          <normaloff>images/palette.png</normaloff>
+                          images/palette.png
+                        </iconset>
+                      </property>
+                      <property name="iconSize">
+                        <size>
+                          <width>80</width>
+                          <height>80</height>
+                        </size>
+                      </property>
+                      <property name="checkable">
+                        <bool>false</bool>
+                      </property>
+                      <property name="autoExclusive">
+                        <bool>false</bool>
+                      </property>
+                    </widget>
+                  </item>
+                  <item>
+                    <spacer name="horizontalSpacer_4">
+                      <property name="orientation">
+                        <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                        <size>
+                          <width>40</width>
+                          <height>20</height>
+                        </size>
+                      </property>
+                    </spacer>
+                  </item>
+                </layout>
+              </item>
+              <item>
+                <spacer name="verticalSpacer_3">
+                  <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeType">
+                    <enum>QSizePolicy::Fixed</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                    <size>
+                      <width>20</width>
+                      <height>40</height>
+                    </size>
+                  </property>
+                </spacer>
+              </item>
+              <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_4">
+                  <item>
+                    <widget class="QPushButton" name="randomButton">
+                      <property name="font">
+                        <font>
+                          <family>KoPubWorld돋움체 Medium</family>
+                          <pointsize>10</pointsize>
+                        </font>
+                      </property>
+                      <property name="cursor">
+                        <cursorShape>PointingHandCursor</cursorShape>
+                      </property>
+                      <property name="text">
+                        <string> 랜덤 팔레트 </string>
+                      </property>
+                      <property name="icon">
+                        <iconset>
+                          <normaloff>images/random.png</normaloff>
+                          images/random.png
+                        </iconset>
+                      </property>
+                      <property name="iconSize">
+                        <size>
+                          <width>40</width>
+                          <height>40</height>
+                        </size>
+                      </property>
+                    </widget>
+                  </item>
+                  <item>
+                    <widget class="QPushButton" name="removeButton">
+                      <property name="font">
+                        <font>
+                          <family>KoPubWorld돋움체 Medium</family>
+                          <pointsize>10</pointsize>
+                        </font>
+                      </property>
+                      <property name="cursor">
+                        <cursorShape>PointingHandCursor</cursorShape>
+                      </property>
+                      <property name="text">
+                        <string> 그림자 제거 </string>
+                      </property>
+                      <property name="icon">
+                        <iconset>
+                          <normaloff>images/remove.png</normaloff>
+                          images/remove.png
+                        </iconset>
+                      </property>
+                      <property name="iconSize">
+                        <size>
+                          <width>40</width>
+                          <height>40</height>
+                        </size>
+                      </property>
+                    </widget>
+                  </item>
+                  <item>
+                    <widget class="QPushButton" name="mosaicButton">
+                      <property name="font">
+                        <font>
+                          <family>KoPubWorld돋움체 Medium</family>
+                          <pointsize>10</pointsize>
+                        </font>
+                      </property>
+                      <property name="cursor">
+                        <cursorShape>PointingHandCursor</cursorShape>
+                      </property>
+                      <property name="text">
+                        <string>   모자이크   </string>
+                      </property>
+                      <property name="icon">
+                        <iconset>
+                          <normaloff>images/mosaic.png</normaloff>
+                          images/mosaic.png
+                        </iconset>
+                      </property>
+                      <property name="iconSize">
+                        <size>
+                          <width>40</width>
+                          <height>40</height>
+                        </size>
+                      </property>
+                    </widget>
+                  </item>
+                </layout>
+              </item>
+              <item>
+                <spacer name="verticalSpacer_10">
+                  <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeType">
+                    <enum>QSizePolicy::Fixed</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                    <size>
+                      <width>20</width>
+                      <height>10</height>
+                    </size>
+                  </property>
+                </spacer>
+              </item>
+              <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_2">
+                  <item>
+                    <spacer name="horizontalSpacer_11">
+                      <property name="orientation">
+                        <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                        <size>
+                          <width>40</width>
+                          <height>20</height>
+                        </size>
+                      </property>
+                    </spacer>
+                  </item>
+                  <item>
+                    <widget class="QPushButton" name="correctionButton">
+                      <property name="font">
+                        <font>
+                          <family>KoPubWorld돋움체 Medium</family>
+                          <pointsize>10</pointsize>
+                        </font>
+                      </property>
+                      <property name="cursor">
+                        <cursorShape>PointingHandCursor</cursorShape>
+                      </property>
+                      <property name="text">
+                        <string>   자동 보정  </string>
+                      </property>
+                      <property name="icon">
+                        <iconset>
+                          <normaloff>images/correction.png</normaloff>
+                          images/correction.png
+                        </iconset>
+                      </property>
+                      <property name="iconSize">
+                        <size>
+                          <width>40</width>
+                          <height>40</height>
+                        </size>
+                      </property>
+                    </widget>
+                  </item>
+                  <item>
+                    <widget class="QPushButton" name="edgeButton">
+                      <property name="font">
+                        <font>
+                          <family>KoPubWorld돋움체 Medium</family>
+                          <pointsize>10</pointsize>
+                        </font>
+                      </property>
+                      <property name="cursor">
+                        <cursorShape>PointingHandCursor</cursorShape>
+                      </property>
+                      <property name="text">
+                        <string> 외곽선 검출 </string>
+                      </property>
+                      <property name="icon">
+                        <iconset>
+                          <normaloff>images/edge.png</normaloff>
+                          images/edge.png
+                        </iconset>
+                      </property>
+                      <property name="iconSize">
+                        <size>
+                          <width>40</width>
+                          <height>40</height>
+                        </size>
+                      </property>
+                    </widget>
+                  </item>
+                  <item>
+                    <spacer name="horizontalSpacer_12">
+                      <property name="orientation">
+                        <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                        <size>
+                          <width>40</width>
+                          <height>20</height>
+                        </size>
+                      </property>
+                    </spacer>
+                  </item>
+                </layout>
+              </item>
+              <item>
+                <spacer name="verticalSpacer_11">
+                  <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeType">
+                    <enum>QSizePolicy::Fixed</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                    <size>
+                      <width>20</width>
+                      <height>10</height>
+                    </size>
+                  </property>
+                </spacer>
+              </item>
+              <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_5">
+                  <item>
+                    <spacer name="horizontalSpacer_10">
+                      <property name="orientation">
+                        <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                        <size>
+                          <width>40</width>
+                          <height>20</height>
+                        </size>
+                      </property>
+                    </spacer>
+                  </item>
+                  <item>
+                    <widget class="QPushButton" name="webtoonButton">
+                      <property name="cursor">
+                        <cursorShape>PointingHandCursor</cursorShape>
+                      </property>
+                      <property name="text">
+                        <string />
+                      </property>
+                      <property name="icon">
+                        <iconset>
+                          <normaloff>images/webtoon.png</normaloff>
+                          images/webtoon.png
+                        </iconset>
+                      </property>
+                      <property name="iconSize">
+                        <size>
+                          <width>40</width>
+                          <height>40</height>
+                        </size>
+                      </property>
+                    </widget>
+                  </item>
+                  <item>
+                    <widget class="QPushButton" name="sketchButton">
+                      <property name="cursor">
+                        <cursorShape>PointingHandCursor</cursorShape>
+                      </property>
+                      <property name="text">
+                        <string />
+                      </property>
+                      <property name="icon">
+                        <iconset>
+                          <normaloff>images/draw.jpg</normaloff>
+                          images/draw.jpg
+                        </iconset>
+                      </property>
+                      <property name="iconSize">
+                        <size>
+                          <width>40</width>
+                          <height>40</height>
+                        </size>
+                      </property>
+                    </widget>
+                  </item>
+                  <item>
+                    <spacer name="horizontalSpacer_13">
+                      <property name="orientation">
+                        <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                        <size>
+                          <width>40</width>
+                          <height>20</height>
+                        </size>
+                      </property>
+                    </spacer>
+                  </item>
+                </layout>
+              </item>
+              <item>
+                <spacer name="verticalSpacer_6">
+                  <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeType">
+                    <enum>QSizePolicy::Fixed</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                    <size>
+                      <width>20</width>
+                      <height>40</height>
+                    </size>
+                  </property>
+                </spacer>
+              </item>
+              <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_7">
+                  <item>
+                    <widget class="QLabel" name="label_2">
+                      <property name="font">
+                        <font>
+                          <family>KoPubWorld돋움체 Medium</family>
+                          <pointsize>10</pointsize>
+                        </font>
+                      </property>
+                      <property name="text">
+                        <string>R: </string>
+                      </property>
+                    </widget>
+                  </item>
+                  <item>
+                    <widget class="QSlider" name="rTrackbar">
+                      <property name="cursor">
+                        <cursorShape>PointingHandCursor</cursorShape>
+                      </property>
+                      <property name="autoFillBackground">
+                        <bool>false</bool>
+                      </property>
+                      <property name="maximum">
+                        <number>255</number>
+                      </property>
+                      <property name="orientation">
+                        <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="tickPosition">
+                        <enum>QSlider::TicksAbove</enum>
+                      </property>
+                    </widget>
+                  </item>
+                </layout>
+              </item>
+              <item>
+                <spacer name="verticalSpacer_7">
+                  <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeType">
+                    <enum>QSizePolicy::Minimum</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                    <size>
+                      <width>20</width>
+                      <height>20</height>
+                    </size>
+                  </property>
+                </spacer>
+              </item>
+              <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_8">
+                  <item>
+                    <widget class="QLabel" name="label_3">
+                      <property name="font">
+                        <font>
+                          <family>KoPubWorld돋움체 Medium</family>
+                          <pointsize>10</pointsize>
+                        </font>
+                      </property>
+                      <property name="text">
+                        <string>G: </string>
+                      </property>
+                    </widget>
+                  </item>
+                  <item>
+                    <widget class="QSlider" name="gTrackbar">
+                      <property name="cursor">
+                        <cursorShape>PointingHandCursor</cursorShape>
+                      </property>
+                      <property name="maximum">
+                        <number>255</number>
+                      </property>
+                      <property name="orientation">
+                        <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="tickPosition">
+                        <enum>QSlider::TicksAbove</enum>
+                      </property>
+                    </widget>
+                  </item>
+                </layout>
+              </item>
+              <item>
+                <spacer name="verticalSpacer_8">
+                  <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeType">
+                    <enum>QSizePolicy::Minimum</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                    <size>
+                      <width>20</width>
+                      <height>20</height>
+                    </size>
+                  </property>
+                </spacer>
+              </item>
+              <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_9">
+                  <item>
+                    <widget class="QLabel" name="label_4">
+                      <property name="font">
+                        <font>
+                          <family>KoPubWorld돋움체 Medium</family>
+                          <pointsize>10</pointsize>
+                        </font>
+                      </property>
+                      <property name="text">
+                        <string>B: </string>
+                      </property>
+                    </widget>
+                  </item>
+                  <item>
+                    <widget class="QSlider" name="bTrackbar">
+                      <property name="cursor">
+                        <cursorShape>PointingHandCursor</cursorShape>
+                      </property>
+                      <property name="maximum">
+                        <number>255</number>
+                      </property>
+                      <property name="orientation">
+                        <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="tickPosition">
+                        <enum>QSlider::TicksAbove</enum>
+                      </property>
+                    </widget>
+                  </item>
+                </layout>
+              </item>
+              <item>
+                <spacer name="verticalSpacer_5">
+                  <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeType">
+                    <enum>QSizePolicy::Fixed</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                    <size>
+                      <width>20</width>
+                      <height>40</height>
+                    </size>
+                  </property>
+                </spacer>
+              </item>
+              <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_6">
+                  <item>
+                    <spacer name="horizontalSpacer_9">
+                      <property name="orientation">
+                        <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeType">
+                        <enum>QSizePolicy::Expanding</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                        <size>
+                          <width>40</width>
+                          <height>20</height>
+                        </size>
+                      </property>
+                    </spacer>
+                  </item>
+                  <item>
+                    <widget class="QPushButton" name="undoButton">
+                      <property name="cursor">
+                        <cursorShape>PointingHandCursor</cursorShape>
+                      </property>
+                      <property name="toolTip">
+                        <string>실행 취소</string>
+                      </property>
+                      <property name="autoFillBackground">
+                        <bool>false</bool>
+                      </property>
+                      <property name="text">
+                        <string />
+                      </property>
+                      <property name="icon">
+                        <iconset>
+                          <normaloff>images/undo.png</normaloff>
+                          images/undo.png
+                        </iconset>
+                      </property>
+                      <property name="iconSize">
+                        <size>
+                          <width>60</width>
+                          <height>40</height>
+                        </size>
+                      </property>
+                      <property name="shortcut">
+                        <string>Ctrl+Z</string>
+                      </property>
+                      <property name="autoExclusive">
+                        <bool>false</bool>
+                      </property>
+                    </widget>
+                  </item>
+                  <item>
+                    <spacer name="horizontalSpacer_8">
+                      <property name="orientation">
+                        <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeType">
+                        <enum>QSizePolicy::Fixed</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                        <size>
+                          <width>20</width>
+                          <height>20</height>
+                        </size>
+                      </property>
+                    </spacer>
+                  </item>
+                  <item>
+                    <widget class="QPushButton" name="redoButton">
+                      <property name="cursor">
+                        <cursorShape>PointingHandCursor</cursorShape>
+                      </property>
+                      <property name="toolTip">
+                        <string>다시 실행</string>
+                      </property>
+                      <property name="whatsThis">
+                        <string />
+                      </property>
+                      <property name="text">
+                        <string />
+                      </property>
+                      <property name="icon">
+                        <iconset>
+                          <normaloff>images/redo.png</normaloff>
+                          images/redo.png
+                        </iconset>
+                      </property>
+                      <property name="iconSize">
+                        <size>
+                          <width>60</width>
+                          <height>40</height>
+                        </size>
+                      </property>
+                      <property name="shortcut">
+                        <string>Ctrl+Y</string>
+                      </property>
+                    </widget>
+                  </item>
+                  <item>
+                    <spacer name="horizontalSpacer_7">
+                      <property name="orientation">
+                        <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeType">
+                        <enum>QSizePolicy::Fixed</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                        <size>
+                          <width>20</width>
+                          <height>20</height>
+                        </size>
+                      </property>
+                    </spacer>
+                  </item>
+                  <item>
+                    <widget class="QPushButton" name="returnButton">
+                      <property name="cursor">
+                        <cursorShape>PointingHandCursor</cursorShape>
+                      </property>
+                      <property name="toolTip">
+                        <string>원본 복원</string>
+                      </property>
+                      <property name="text">
+                        <string />
+                      </property>
+                      <property name="icon">
+                        <iconset>
+                          <normaloff>images/original.png</normaloff>
+                          images/original.png
+                        </iconset>
+                      </property>
+                      <property name="iconSize">
+                        <size>
+                          <width>60</width>
+                          <height>40</height>
+                        </size>
+                      </property>
+                      <property name="shortcut">
+                        <string>Ctrl+R</string>
+                      </property>
+                    </widget>
+                  </item>
+                  <item>
+                    <spacer name="horizontalSpacer_6">
+                      <property name="orientation">
+                        <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeType">
+                        <enum>QSizePolicy::Expanding</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                        <size>
+                          <width>40</width>
+                          <height>20</height>
+                        </size>
+                      </property>
+                    </spacer>
+                  </item>
+                </layout>
+              </item>
+              <item>
+                <spacer name="verticalSpacer_9">
+                  <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                    <size>
+                      <width>20</width>
+                      <height>40</height>
+                    </size>
+                  </property>
+                </spacer>
+              </item>
+            </layout>
+          </item>
+          <item>
+            <spacer name="horizontalSpacer_5">
+              <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+                <size>
+                  <width>40</width>
+                  <height>20</height>
+                </size>
+              </property>
+            </spacer>
+          </item>
+        </layout>
+      </widget>
+    </widget>
+    <widget class="QMenuBar" name="menubar">
+      <property name="geometry">
+        <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>1400</width>
+          <height>23</height>
+        </rect>
+      </property>
+      <property name="font">
+        <font>
+          <family>KoPubWorld돋움체 Light</family>
+          <pointsize>11</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
+        </font>
+      </property>
+      <widget class="QMenu" name="menu">
+        <property name="title">
+          <string>File</string>
+        </property>
+        <addaction name="actionOpen" />
+        <addaction name="actionSave" />
+      </widget>
+      <addaction name="menu" />
+    </widget>
+    <widget class="QStatusBar" name="statusbar" />
+    <action name="actionOpen">
+      <property name="checkable">
+        <bool>false</bool>
+      </property>
+      <property name="icon">
+        <iconset>
+          <normaloff>images/new.png</normaloff>
+          images/new.png
+        </iconset>
+      </property>
+      <property name="text">
+        <string>Open...</string>
+      </property>
+      <property name="whatsThis">
+        <string />
+      </property>
+      <property name="font">
+        <font>
+          <family>KoPubWorld돋움체 Light</family>
+          <pointsize>10</pointsize>
+        </font>
+      </property>
+      <property name="shortcut">
+        <string>Ctrl+O</string>
+      </property>
+    </action>
+    <action name="actionSave">
+      <property name="icon">
+        <iconset>
+          <normaloff>images/save.ico</normaloff>
+          images/save.ico
+        </iconset>
+      </property>
+      <property name="text">
+        <string>Save...</string>
+      </property>
+      <property name="font">
+        <font>
+          <family>KoPubWorld돋움체 Light</family>
+          <pointsize>10</pointsize>
+        </font>
+      </property>
+      <property name="shortcut">
+        <string>Ctrl+S</string>
+      </property>
+    </action>
+    <action name="actionAbout">
+      <property name="text">
+        <string>About Photo#</string>
+      </property>
+      <property name="font">
+        <font>
+          <family>KoPubWorld돋움체 Light</family>
+          <pointsize>10</pointsize>
+        </font>
+      </property>
+    </action>
+  </widget>
+  <resources />
+  <connections />
+</ui>
