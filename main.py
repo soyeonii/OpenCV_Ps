@@ -3,12 +3,8 @@ from PyQt5.QtGui import QPixmap, QImage
 from PyQt5 import uic, QtGui, QtCore
 import sys
 import math
-import random
-import bisect
 from collections import deque
 import numpy as np, cv2
-
-from colorthief import ColorThief
 
 class MainWindow(QMainWindow, uic.loadUiType('main.ui')[0]):
     def __init__(self):
@@ -40,6 +36,7 @@ class MainWindow(QMainWindow, uic.loadUiType('main.ui')[0]):
         self.randomButton.clicked.connect(self.randomButtonClicked)
         self.removeButton.clicked.connect(self.removeButtonClicked)
         self.mosaicButton.clicked.connect(self.mosaicButtonClicked)
+        self.correctionButton.clicked.connect(self.correctionButtonClicked)
         self.edgeButton.clicked.connect(self.edgeButtonClicked)
         self.webtoonButton.clicked.connect(self.webtoonButtonClicked)
         self.sketchButton.clicked.connect(self.sketchButtonClicked)
@@ -205,20 +202,39 @@ class MainWindow(QMainWindow, uic.loadUiType('main.ui')[0]):
             self.button = -1
             self.imageLabel.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
 
-            # colorThief = ColorThief(self.fileName)
-            # palette = colorThief.get_palette(quality=1)
-            # palette.sort(key=lambda x: (x[0]-min(x), x[1]-min(x), x[2]-min(x)), reverse=True)
-            # plt.imshow([[palette[i] for i in range(len(palette))]])
+            def find_nearest(array, value):
+                array = array[np.where(np.abs(array[:,0] - value[0]) <= 9)]
+                idx = np.abs(array - value).argmin()
+                return array[idx // 3]
+
+            randomPalette = (np.random.rand(256, 3) * 256).astype(np.uint8)
+
+            self.tmpImage = cv2.cvtColor(self.orgImage.copy(), cv2.COLOR_RGB2HSV)
+            for i in range(self.tmpImage.shape[0]):
+                print('-----------------------')
+                print('before : ', end='')
+                print(self.tmpImage[i][0])
+                for j in range(self.tmpImage.shape[1]):
+                    self.tmpImage[i][j] = find_nearest(randomPalette, self.tmpImage[i][j])
+                print('after  : ', end='')
+                print(self.tmpImage[i][0])
+                print('-----------------------')
+            self.tmpImage = cv2.cvtColor(self.tmpImage, cv2.COLOR_HSV2RGB)
+
+            # orgColorThief = ColorThief(self.fileName)
+            # orgPalette = orgColorThief.get_palette(quality=1)
+            # plt.subplot(2, 1, 1)
+            # plt.imshow([[orgPalette[i] for i in range(len(orgPalette))]])
+            # fileName = './tmp.jpg'
+            # cv2.imwrite(fileName, cv2.cvtColor(self.tmpImage, cv2.COLOR_RGB2BGR))
+            # tmpColorThief = ColorThief(fileName)
+            # tmpPalette = tmpColorThief.get_palette(quality=1)
+            # plt.subplot(2, 1, 2)
+            # plt.imshow([[tmpPalette[i] for i in range(len(tmpPalette))]])
             # plt.show()
 
-            # randomPalette = random.sample(list((np.random.random_sample((300, 3)) * 256).astype(np.uint8)), 256)
-            # randomPalette.sort(key=lambda x: (x[0]-min(x), x[1]-min(x), x[2]-min(x)), reverse=True)
-            
-            # for i in range(self.image.shape[0]):
-            #     for j in range(self.image.shape[1]):
-            #         self.orgImage
-
-            
+            self.updateQueue()
+            self.updateImageLabel(self.image)
 
     def removeButtonClicked(self):
         if self.pixmap:
@@ -294,12 +310,25 @@ class MainWindow(QMainWindow, uic.loadUiType('main.ui')[0]):
             self.updateQueue()
             self.updateImageLabel(self.image)
 
+    def correctionButtonClicked(self):
+        if self.pixmap:
+            self.button = -1
+            self.imageLabel.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
+            ## 이미지 평활화
+            y, cr, cb = cv2.split(cv2.cvtColor(self.orgImage.copy(), cv2.COLOR_RGB2YCrCb))
+            self.tmpImage = cv2.cvtColor(cv2.merge([cv2.equalizeHist(y), cr, cb]), cv2.COLOR_YCrCb2RGB)
+            ## 이미지 선명하게
+            kernel = np.array([[0, -1, 0], [-1, 5, -1], [0, -1, 0]])
+            self.tmpImage = cv2.filter2D(self.tmpImage, -1, kernel)
+            self.updateQueue()
+            self.updateImageLabel(self.image)
+
     def edgeButtonClicked(self):
         if self.pixmap:
             self.button = -1
             self.imageLabel.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
             blurImage = cv2.GaussianBlur(self.orgImage, (5, 5), cv2.BORDER_DEFAULT)
-            cannyImage = 255 - cv2.Canny(blurImage, 30, 80)
+            cannyImage = 255 - cv2.Canny(blurImage, 30, 60)
             self.tmpImage = cv2.cvtColor(cannyImage, cv2.COLOR_GRAY2RGB)
             self.updateQueue()
             self.updateImageLabel(self.image)
