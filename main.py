@@ -3,6 +3,7 @@ from PyQt5.QtGui import QPixmap, QImage
 from PyQt5 import uic, QtGui, QtCore
 import sys
 import math
+import random
 from collections import deque
 import numpy as np, cv2
 
@@ -203,11 +204,13 @@ class MainWindow(QMainWindow, uic.loadUiType('main.ui')[0]):
             self.imageLabel.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
 
             def find_nearest(array, value):
-                array = array[np.where(np.abs(array[:,0] - value[0]) <= 9)]
+                array = array[np.where((np.abs(array[:,0] - value[0]) <= 10) & (np.abs(array[:,1] - value[1]) <= 50))]
                 idx = np.abs(array - value).argmin()
                 return array[idx // 3]
 
-            randomPalette = (np.random.rand(256, 3) * 256).astype(np.uint8)
+            randomPalette = random.sample(list((np.random.rand(300, 3) * 256).astype(np.uint8)), 254)
+            randomPalette = np.append(randomPalette, np.array([[0, 0, 0]]), axis=0)
+            randomPalette = np.append(randomPalette, np.array([[255, 255, 255]]), axis=0)
 
             self.tmpImage = cv2.cvtColor(self.orgImage.copy(), cv2.COLOR_RGB2HSV)
             for i in range(self.tmpImage.shape[0]):
