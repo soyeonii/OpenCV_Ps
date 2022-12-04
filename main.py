@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog, QMessageBox, QColorDialog
-from PyQt5.QtGui import QPixmap, QImage
+from PyQt5.QtGui import QPixmap, QImage, QIcon
 from PyQt5 import uic, QtGui, QtCore
 import sys
 import math
@@ -11,7 +11,8 @@ class MainWindow(QMainWindow, uic.loadUiType('main.ui')[0]):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-        self.setWindowTitle('Final Project')
+        self.setWindowTitle('𝙥𝙝𝙤𝙩𝙤𝙨𝙝𝙤𝙥')
+        self.setWindowIcon(QIcon('./images/icon.png'))
 
         self.fileName = None
         self.pixmap = None
@@ -38,7 +39,7 @@ class MainWindow(QMainWindow, uic.loadUiType('main.ui')[0]):
         self.mosaicButton.clicked.connect(self.mosaicButtonClicked)
         self.correctionButton.clicked.connect(self.correctionButtonClicked)
         self.edgeButton.clicked.connect(self.edgeButtonClicked)
-        self.webtoonButton.clicked.connect(self.webtoonButtonClicked)
+        self.cartoonButton.clicked.connect(self.cartoonButtonClicked)
         self.sketchButton.clicked.connect(self.sketchButtonClicked)
         self.undoButton.clicked.connect(self.undoButtonClicked)
         self.redoButton.clicked.connect(self.redoButtonClicked)
@@ -68,7 +69,7 @@ class MainWindow(QMainWindow, uic.loadUiType('main.ui')[0]):
         self.bTrackbar.setValue(0)
 
     def fileOpen(self):
-        self.fileName = QFileDialog.getOpenFileName(self, 'Open File', '', '모든 파일(*);; PNG(*.png);; JPEG(*.jpg;*jpeg;*.jpe;*.jfif)')[0]
+        self.fileName = QFileDialog.getOpenFileName(self, '𝘖𝘱𝘦𝘯 𝘍𝘪𝘭𝘦', '', '모든 파일(*);; PNG(*.png);; JPEG(*.jpg;*jpeg;*.jpe;*.jfif)')[0]
         if self.fileName:
             self.orgImage = cv2.cvtColor(cv2.imread(self.fileName, cv2.IMREAD_COLOR), cv2.COLOR_BGR2RGB)
             self.image = self.orgImage.copy()
@@ -78,11 +79,11 @@ class MainWindow(QMainWindow, uic.loadUiType('main.ui')[0]):
 
     def fileSave(self):
         if self.pixmap:
-            fileName = QFileDialog.getSaveFileName(self, 'Save File', '', '모든 파일(*);; PNG(*.png);; JPEG(*.jpg;*jpeg;*.jpe;*.jfif)')[0]
+            fileName = QFileDialog.getSaveFileName(self, '𝘚𝘢𝘷𝘦 𝘍𝘪𝘭𝘦', '', '모든 파일(*);; PNG(*.png);; JPEG(*.jpg;*jpeg;*.jpe;*.jfif)')[0]
             if fileName:
                 self.pixmap.save(fileName)
         else:
-            QMessageBox.warning(self, 'Warning', '저장할 파일이 없습니다.')
+            QMessageBox.warning(self, '𝗪𝗮𝗿𝗻𝗶𝗻𝗴', '저장할 파일이 없습니다')
 
     def mousePressed(self, event):
         if self.pixmap:
@@ -303,6 +304,7 @@ class MainWindow(QMainWindow, uic.loadUiType('main.ui')[0]):
             ## 이미지 선명하게
             kernel = np.array([[0, -1, 0], [-1, 5, -1], [0, -1, 0]])
             self.tmpImage = cv2.filter2D(self.tmpImage, -1, kernel)
+            self.tmpImage = cv2.bilateralFilter(self.tmpImage, -1, 10, 5)
             self.updateQueue()
             self.updateImageLabel(self.image)
 
@@ -315,7 +317,7 @@ class MainWindow(QMainWindow, uic.loadUiType('main.ui')[0]):
             self.updateQueue()
             self.updateImageLabel(self.image)
 
-    def webtoonButtonClicked(self):
+    def cartoonButtonClicked(self):
         if self.pixmap:
             self.setButtonAndCursor()
             h, w = self.orgImage.shape[:2]

@@ -145,9 +145,7 @@
                       </property>
                       <property name="icon">
                         <iconset>
-                          <normaloff>images/palette.png</normaloff>
-                          images/palette.png
-                        </iconset>
+                          <normaloff>images/palette.png</normaloff>images/palette.png</iconset>
                       </property>
                       <property name="iconSize">
                         <size>
@@ -197,6 +195,19 @@
               <item>
                 <layout class="QHBoxLayout" name="horizontalLayout_4">
                   <item>
+                    <spacer name="horizontalSpacer_14">
+                      <property name="orientation">
+                        <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                        <size>
+                          <width>40</width>
+                          <height>20</height>
+                        </size>
+                      </property>
+                    </spacer>
+                  </item>
+                  <item>
                     <widget class="QPushButton" name="randomButton">
                       <property name="font">
                         <font>
@@ -212,9 +223,7 @@
                       </property>
                       <property name="icon">
                         <iconset>
-                          <normaloff>images/random.png</normaloff>
-                          images/random.png
-                        </iconset>
+                          <normaloff>images/random.png</normaloff>images/random.png</iconset>
                       </property>
                       <property name="iconSize">
                         <size>
@@ -240,9 +249,7 @@
                       </property>
                       <property name="icon">
                         <iconset>
-                          <normaloff>images/remove.png</normaloff>
-                          images/remove.png
-                        </iconset>
+                          <normaloff>images/remove.png</normaloff>images/remove.png</iconset>
                       </property>
                       <property name="iconSize">
                         <size>
@@ -264,13 +271,11 @@
                         <cursorShape>PointingHandCursor</cursorShape>
                       </property>
                       <property name="text">
-                        <string>   모자이크   </string>
+                        <string> 모자이크 </string>
                       </property>
                       <property name="icon">
                         <iconset>
-                          <normaloff>images/mosaic.png</normaloff>
-                          images/mosaic.png
-                        </iconset>
+                          <normaloff>images/mosaic.png</normaloff>images/mosaic.png</iconset>
                       </property>
                       <property name="iconSize">
                         <size>
@@ -279,6 +284,19 @@
                         </size>
                       </property>
                     </widget>
+                  </item>
+                  <item>
+                    <spacer name="horizontalSpacer_15">
+                      <property name="orientation">
+                        <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                        <size>
+                          <width>40</width>
+                          <height>20</height>
+                        </size>
+                      </property>
+                    </spacer>
                   </item>
                 </layout>
               </item>
@@ -325,13 +343,11 @@
                         <cursorShape>PointingHandCursor</cursorShape>
                       </property>
                       <property name="text">
-                        <string>   자동 보정  </string>
+                        <string> 자동 보정 </string>
                       </property>
                       <property name="icon">
                         <iconset>
-                          <normaloff>images/correction.png</normaloff>
-                          images/correction.png
-                        </iconset>
+                          <normaloff>images/correction.png</normaloff>images/correction.png</iconset>
                       </property>
                       <property name="iconSize">
                         <size>
@@ -357,9 +373,7 @@
                       </property>
                       <property name="icon">
                         <iconset>
-                          <normaloff>images/edge.png</normaloff>
-                          images/edge.png
-                        </iconset>
+                          <normaloff>images/edge.png</normaloff>images/edge.png</iconset>
                       </property>
                       <property name="iconSize">
                         <size>
@@ -416,7 +430,7 @@
                     </spacer>
                   </item>
                   <item>
-                    <widget class="QPushButton" name="webtoonButton">
+                    <widget class="QPushButton" name="cartoonButton">
                       <property name="cursor">
                         <cursorShape>PointingHandCursor</cursorShape>
                       </property>
@@ -425,9 +439,7 @@
                       </property>
                       <property name="icon">
                         <iconset>
-                          <normaloff>images/webtoon.png</normaloff>
-                          images/webtoon.png
-                        </iconset>
+                          <normaloff>images/cartoon.png</normaloff>images/cartoon.png</iconset>
                       </property>
                       <property name="iconSize">
                         <size>
@@ -447,9 +459,7 @@
                       </property>
                       <property name="icon">
                         <iconset>
-                          <normaloff>images/draw.jpg</normaloff>
-                          images/draw.jpg
-                        </iconset>
+                          <normaloff>images/draw.jpg</normaloff>images/draw.jpg</iconset>
                       </property>
                       <property name="iconSize">
                         <size>
@@ -496,12 +506,11 @@
                     <widget class="QLabel" name="label_2">
                       <property name="font">
                         <font>
-                          <family>KoPubWorld돋움체 Medium</family>
-                          <pointsize>10</pointsize>
+                          <pointsize>11</pointsize>
                         </font>
                       </property>
                       <property name="text">
-                        <string>R: </string>
+                        <string>𝗥: </string>
                       </property>
                     </widget>
                   </item>
@@ -548,12 +557,11 @@
                     <widget class="QLabel" name="label_3">
                       <property name="font">
                         <font>
-                          <family>KoPubWorld돋움체 Medium</family>
-                          <pointsize>10</pointsize>
+                          <pointsize>11</pointsize>
                         </font>
                       </property>
                       <property name="text">
-                        <string>G: </string>
+                        <string>𝗚: </string>
                       </property>
                     </widget>
                   </item>
@@ -597,12 +605,11 @@
                     <widget class="QLabel" name="label_4">
                       <property name="font">
                         <font>
-                          <family>KoPubWorld돋움체 Medium</family>
-                          <pointsize>10</pointsize>
+                          <pointsize>11</pointsize>
                         </font>
                       </property>
                       <property name="text">
-                        <string>B: </string>
+                        <string>𝗕: </string>
                       </property>
                     </widget>
                   </item>
@@ -674,9 +681,7 @@
                       </property>
                       <property name="icon">
                         <iconset>
-                          <normaloff>images/undo.png</normaloff>
-                          images/undo.png
-                        </iconset>
+                          <normaloff>images/undo.png</normaloff>images/undo.png</iconset>
                       </property>
                       <property name="iconSize">
                         <size>
@@ -724,9 +729,7 @@
                       </property>
                       <property name="icon">
                         <iconset>
-                          <normaloff>images/redo.png</normaloff>
-                          images/redo.png
-                        </iconset>
+                          <normaloff>images/redo.png</normaloff>images/redo.png</iconset>
                       </property>
                       <property name="iconSize">
                         <size>
@@ -768,9 +771,7 @@
                       </property>
                       <property name="icon">
                         <iconset>
-                          <normaloff>images/original.png</normaloff>
-                          images/original.png
-                        </iconset>
+                          <normaloff>images/original.png</normaloff>images/original.png</iconset>
                       </property>
                       <property name="iconSize">
                         <size>
@@ -838,12 +839,11 @@
           <x>0</x>
           <y>0</y>
           <width>1400</width>
-          <height>23</height>
+          <height>21</height>
         </rect>
       </property>
       <property name="font">
         <font>
-          <family>KoPubWorld돋움체 Light</family>
           <pointsize>11</pointsize>
           <weight>50</weight>
           <bold>false</bold>
@@ -851,7 +851,7 @@
       </property>
       <widget class="QMenu" name="menu">
         <property name="title">
-          <string>File</string>
+          <string>𝘍𝘪𝘭𝘦</string>
         </property>
         <addaction name="actionOpen" />
         <addaction name="actionSave" />
@@ -865,19 +865,16 @@
       </property>
       <property name="icon">
         <iconset>
-          <normaloff>images/new.png</normaloff>
-          images/new.png
-        </iconset>
+          <normaloff>images/new.png</normaloff>images/new.png</iconset>
       </property>
       <property name="text">
-        <string>Open...</string>
+        <string>𝘖𝘱𝘦𝘯...</string>
       </property>
       <property name="whatsThis">
         <string />
       </property>
       <property name="font">
         <font>
-          <family>KoPubWorld돋움체 Light</family>
           <pointsize>10</pointsize>
         </font>
       </property>
@@ -888,16 +885,13 @@
     <action name="actionSave">
       <property name="icon">
         <iconset>
-          <normaloff>images/save.ico</normaloff>
-          images/save.ico
-        </iconset>
+          <normaloff>images/save.ico</normaloff>images/save.ico</iconset>
       </property>
       <property name="text">
-        <string>Save...</string>
+        <string>𝘚𝘢𝘷𝘦...</string>
       </property>
       <property name="font">
         <font>
-          <family>KoPubWorld돋움체 Light</family>
           <pointsize>10</pointsize>
         </font>
       </property>
