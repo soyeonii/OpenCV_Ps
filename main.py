@@ -26,7 +26,6 @@ class MainWindow(QMainWindow, uic.loadUiType('main.ui')[0]):
         self.y2 = 0
         self.button = -1
         self.color = None
-        self.mask = None
 
         self.imageLabel.mousePressEvent = self.mousePressed
         self.imageLabel.mouseMoveEvent = self.mouseMoved
@@ -76,8 +75,6 @@ class MainWindow(QMainWindow, uic.loadUiType('main.ui')[0]):
             self.tmpImage = self.orgImage.copy()
             self.updateImageLabel(self.image)
             self.initUi()
-        else:
-            QMessageBox.about(self, 'Warning', '파일을 선택하지 않았습니다.')
 
     def fileSave(self):
         if self.pixmap:
@@ -85,7 +82,7 @@ class MainWindow(QMainWindow, uic.loadUiType('main.ui')[0]):
             if fileName:
                 self.pixmap.save(fileName)
         else:
-            QMessageBox.about(self, 'Warning', '저장할 파일이 없습니다.')
+            QMessageBox.warning(self, 'Warning', '저장할 파일이 없습니다.')
 
     def mousePressed(self, event):
         if self.pixmap:
@@ -93,13 +90,10 @@ class MainWindow(QMainWindow, uic.loadUiType('main.ui')[0]):
             self.y1 = event.y()
             print('x1: {0}, y1: {1}'.format(self.x1, self.y1))
 
-            if self.button == 0:
-                self.runPaletteButton()
-
     def mouseMoved(self, event):
         if self.pixmap:
             if self.button == 3:
-                self.imageLabel.setCursor(QtGui.QCursor(QtCore.Qt.ClosedHandCursor))
+                self.setButtonAndCursor(3, QtCore.Qt.ClosedHandCursor)
                 x = event.x()
                 y = event.y()
                 size = (abs(self.x1 - x) // 2, abs(self.y1 - y) // 2)
@@ -119,20 +113,16 @@ class MainWindow(QMainWindow, uic.loadUiType('main.ui')[0]):
                 self.updateQueue()
                 self.updateImageLabel(self.image)
             elif self.button == 0:
-                self.button = -1
-                self.imageLabel.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
+                self.runPaletteButton()
+                self.setButtonAndCursor()
             elif self.button == 3:
-                size = (abs(self.x1 - self.x2) // 2, abs(self.y1 - self.y2) // 2)
-                center = (min(self.x1, self.x2) + size[0], min(self.y1, self.y2) + size[1])
-                self.mask = np.zeros_like(self.image)
-                cv2.ellipse(self.mask, center, size, 0, 0, 360, (255, 255, 255), -1)
                 self.runMosaicButton()
-                self.button = -1
-                self.imageLabel.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
+                self.setButtonAndCursor()
 
     def liquify(self):
         half = 30
         x, y, w, h = self.x1-half, self.y1-half, half*2, half*2
+
         if abs(self.x1 - self.x2) > 5 or abs(self.y1 - self.y2) > 5:
             self.tmpImage = self.image.copy()
             roi = self.tmpImage[y:y+h, x:x+w].copy()
@@ -157,7 +147,7 @@ class MainWindow(QMainWindow, uic.loadUiType('main.ui')[0]):
                 cv2.fillConvexPoly(mask, np.int32(tri2[i]), (255, 255, 255))
                 warped = cv2.bitwise_and(warped, warped, mask=mask)
                 dst = cv2.bitwise_and(dst, dst, mask=cv2.bitwise_not(mask))
-                dst = dst + warped
+                dst += warped
 
             self.tmpImage[y:y+h, x:x+w] = dst
 
@@ -166,8 +156,7 @@ class MainWindow(QMainWindow, uic.loadUiType('main.ui')[0]):
             col = QColorDialog.getColor()
             if col.isValid():
                 self.color = list(col.getRgb())[:3]
-                self.button = 0
-                self.imageLabel.setCursor(QtGui.QCursor(QtCore.Qt.CrossCursor))
+                self.setButtonAndCursor(0, QtCore.Qt.CrossCursor)
 
     def runPaletteButton(self):
         dx = [-1, 0, 1, 1, 1, 0, -1, -1]
@@ -176,8 +165,8 @@ class MainWindow(QMainWindow, uic.loadUiType('main.ui')[0]):
 
         def BFS():
             queue = deque()
-            src = self.image.copy()
-            src[self.y1][self.x1] = self.color
+            self.tmpImage = self.image.copy()
+            self.tmpImage[self.y1][self.x1] = self.color
             visited[self.y1][self.x1] = True
             queue.append((self.x1, self.y1))
             while queue:
@@ -188,30 +177,30 @@ class MainWindow(QMainWindow, uic.loadUiType('main.ui')[0]):
                     if 0 <= nx < self.image.shape[1] and 0 <= ny < self.image.shape[0]:
                         if not visited[ny][nx]:
                             r, g, b = self.image[y][x]
-                            if r-2 <= src[ny][nx][0] <= r+2 and g-2 <= src[ny][nx][1] <= g+2 and b-2 <= src[ny][nx][2] <= b+2:
-                                src[ny][nx] = self.color
+                            if r-2 <= self.tmpImage[ny][nx][0] <= r+2 and g-2 <= self.tmpImage[ny][nx][1] <= g+2 and b-2 <= self.tmpImage[ny][nx][2] <= b+2:
+                                self.tmpImage[ny][nx] = self.color
                                 visited[ny][nx] = True
                                 queue.append((nx, ny))
-            return src
 
-        self.tmpImage = BFS()
+        BFS()
         self.updateQueue()
         self.updateImageLabel(self.image)
 
     def randomButtonClicked(self):
         if self.pixmap:
-            self.button = -1
-            self.imageLabel.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
+            self.setButtonAndCursor()
 
             def find_nearest(array, value):
                 array = array[np.where((np.abs(array[:,0] - value[0]) <= 10) & (np.abs(array[:,1] - value[1]) <= 50))]
                 idx = np.abs(array - value).argmin()
                 return array[idx // 3]
 
+            ## 256가지 랜덤 색상 팔레트 생성
             randomPalette = random.sample(list((np.random.rand(300, 3) * 256).astype(np.uint8)), 254)
             randomPalette = np.append(randomPalette, np.array([[0, 0, 0]]), axis=0)
             randomPalette = np.append(randomPalette, np.array([[255, 255, 255]]), axis=0)
 
+            ## 가장 가까운 색상 적용
             self.tmpImage = cv2.cvtColor(self.orgImage.copy(), cv2.COLOR_RGB2HSV)
             for i in range(self.tmpImage.shape[0]):
                 print('-----------------------')
@@ -224,25 +213,12 @@ class MainWindow(QMainWindow, uic.loadUiType('main.ui')[0]):
                 print('-----------------------')
             self.tmpImage = cv2.cvtColor(self.tmpImage, cv2.COLOR_HSV2RGB)
 
-            # orgColorThief = ColorThief(self.fileName)
-            # orgPalette = orgColorThief.get_palette(quality=1)
-            # plt.subplot(2, 1, 1)
-            # plt.imshow([[orgPalette[i] for i in range(len(orgPalette))]])
-            # fileName = './tmp.jpg'
-            # cv2.imwrite(fileName, cv2.cvtColor(self.tmpImage, cv2.COLOR_RGB2BGR))
-            # tmpColorThief = ColorThief(fileName)
-            # tmpPalette = tmpColorThief.get_palette(quality=1)
-            # plt.subplot(2, 1, 2)
-            # plt.imshow([[tmpPalette[i] for i in range(len(tmpPalette))]])
-            # plt.show()
-
             self.updateQueue()
             self.updateImageLabel(self.image)
 
     def removeButtonClicked(self):
         if self.pixmap:
-            self.button = -1
-            self.imageLabel.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
+            self.setButtonAndCursor()
 
             def inv_relu(input):
                 return 0 if input > 0 else input
@@ -298,25 +274,29 @@ class MainWindow(QMainWindow, uic.loadUiType('main.ui')[0]):
 
     def mosaicButtonClicked(self):
         if self.pixmap:
-            self.button = 3
-            self.imageLabel.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
+            self.setButtonAndCursor(3, QtCore.Qt.OpenHandCursor)
 
     def runMosaicButton(self):
         w, h = abs(self.x1 - self.x2), abs(self.y1 - self.y2)
         if w >= 15 and h >= 15:
+            ## roi 지정
             src = self.image.copy()
             roi = src[min(self.y1, self.y2):max(self.y1, self.y2), min(self.x1, self.x2):max(self.x1, self.x2)]
             roi = cv2.resize(roi, (w//15, h//15))
             roi = cv2.resize(roi, (w, h), interpolation=cv2.INTER_AREA)
             src[min(self.y1, self.y2):max(self.y1, self.y2), min(self.x1, self.x2):max(self.x1, self.x2)] = roi
-            cv2.copyTo(src, self.mask, self.tmpImage)
+            ## mask 생성
+            size = (abs(self.x1 - self.x2) // 2, abs(self.y1 - self.y2) // 2)
+            center = (min(self.x1, self.x2) + size[0], min(self.y1, self.y2) + size[1])
+            mask = np.zeros_like(self.image)
+            cv2.ellipse(mask, center, size, 0, 0, 360, (255, 255, 255), -1)
+            cv2.copyTo(src, mask, self.tmpImage)
             self.updateQueue()
             self.updateImageLabel(self.image)
 
     def correctionButtonClicked(self):
         if self.pixmap:
-            self.button = -1
-            self.imageLabel.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
+            self.setButtonAndCursor()
             ## 이미지 평활화
             y, cr, cb = cv2.split(cv2.cvtColor(self.orgImage.copy(), cv2.COLOR_RGB2YCrCb))
             self.tmpImage = cv2.cvtColor(cv2.merge([cv2.equalizeHist(y), cr, cb]), cv2.COLOR_YCrCb2RGB)
@@ -328,8 +308,7 @@ class MainWindow(QMainWindow, uic.loadUiType('main.ui')[0]):
 
     def edgeButtonClicked(self):
         if self.pixmap:
-            self.button = -1
-            self.imageLabel.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
+            self.setButtonAndCursor()
             blurImage = cv2.GaussianBlur(self.orgImage, (5, 5), cv2.BORDER_DEFAULT)
             cannyImage = 255 - cv2.Canny(blurImage, 30, 60)
             self.tmpImage = cv2.cvtColor(cannyImage, cv2.COLOR_GRAY2RGB)
@@ -338,8 +317,7 @@ class MainWindow(QMainWindow, uic.loadUiType('main.ui')[0]):
 
     def webtoonButtonClicked(self):
         if self.pixmap:
-            self.button = -1
-            self.imageLabel.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
+            self.setButtonAndCursor()
             h, w = self.orgImage.shape[:2]
             resizeImage = cv2.resize(self.orgImage, (w//2, h//2))
             filterImage = cv2.bilateralFilter(resizeImage, -1, 20, 7)
@@ -351,8 +329,7 @@ class MainWindow(QMainWindow, uic.loadUiType('main.ui')[0]):
 
     def sketchButtonClicked(self):
         if self.pixmap:
-            self.button = -1
-            self.imageLabel.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
+            self.setButtonAndCursor()
             grayImage = cv2.cvtColor(self.orgImage, cv2.COLOR_RGB2GRAY)
             blurImage = cv2.GaussianBlur(grayImage, (0, 0), 5)
             divideImage = cv2.divide(grayImage, blurImage, scale=255)
@@ -422,6 +399,10 @@ class MainWindow(QMainWindow, uic.loadUiType('main.ui')[0]):
             self.undoButton.setEnabled(True)
         if not self.returnButton.isEnabled():
             self.returnButton.setEnabled(True)
+
+    def setButtonAndCursor(self, button=-1, cursor=QtCore.Qt.ArrowCursor):
+        self.button = button
+        self.imageLabel.setCursor(QtGui.QCursor(cursor))
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
