@@ -120,43 +120,11 @@ class MainWindow(QMainWindow, uic.loadUiType('main.ui')[0]):
                 self.runMosaicButton()
                 self.setButtonAndCursor()
 
-    def liquify(self):
-        half = 30
-        x, y, w, h = self.x1-half, self.y1-half, half*2, half*2
-
-        if abs(self.x1 - self.x2) > 5 or abs(self.y1 - self.y2) > 5:
-            self.tmpImage = self.image.copy()
-            roi = self.tmpImage[y:y+h, x:x+w].copy()
-            dst = roi.copy()
-
-            offset_cx1, offset_cy1 = self.x1-x, self.y1-y
-            offset_cx2, offset_cy2 = self.x2-x, self.y2-y
-
-            tri1 = [[[0, 0], [w, 0], [offset_cx1, offset_cy1]],
-                    [[0, 0], [0, h], [offset_cx1, offset_cy1]],
-                    [[w, 0], [offset_cx1, offset_cy1], [w, h]],
-                    [[0, h], [offset_cx1, offset_cy1], [w, h]]]
-            tri2 = [[[0, 0], [w, 0], [offset_cx2, offset_cy2]],
-                    [[0, 0], [0, h], [offset_cx2, offset_cy2]],
-                    [[w, 0], [offset_cx2, offset_cy2], [w, h]],
-                    [[0, h], [offset_cx2, offset_cy2], [w, h]]]
-
-            for i in range(4):
-                matrix = cv2.getAffineTransform(np.float32(tri1[i]), np.float32(tri2[i]))
-                warped = cv2.warpAffine(roi, matrix, (w, h), None, flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT_101)
-                mask = np.zeros((h, w), np.uint8)
-                cv2.fillConvexPoly(mask, np.int32(tri2[i]), (255, 255, 255))
-                warped = cv2.bitwise_and(warped, warped, mask=mask)
-                dst = cv2.bitwise_and(dst, dst, mask=cv2.bitwise_not(mask))
-                dst += warped
-
-            self.tmpImage[y:y+h, x:x+w] = dst
-
     def paletteButtonClicked(self):
         if self.pixmap:
-            col = QColorDialog.getColor()
-            if col.isValid():
-                self.color = list(col.getRgb())[:3]
+            color = QColorDialog.getColor()
+            if color.isValid():
+                self.color = list(color.getRgb())[:3]
                 self.setButtonAndCursor(0, QtCore.Qt.CrossCursor)
 
     def runPaletteButton(self):
@@ -255,7 +223,7 @@ class MainWindow(QMainWindow, uic.loadUiType('main.ui')[0]):
                 w = np.zeros_like(h, np.float32)
                 G = np.zeros_like(h, np.float32)
 
-                for t in range(100):
+                for _ in range(100):
                     G = w + h
                     for y in range(1, height-2):
                         for x in range(1, width-2):
@@ -304,7 +272,6 @@ class MainWindow(QMainWindow, uic.loadUiType('main.ui')[0]):
             ## 이미지 선명하게
             kernel = np.array([[0, -1, 0], [-1, 5, -1], [0, -1, 0]])
             self.tmpImage = cv2.filter2D(self.tmpImage, -1, kernel)
-            self.tmpImage = cv2.bilateralFilter(self.tmpImage, -1, 10, 5)
             self.updateQueue()
             self.updateImageLabel(self.image)
 
@@ -339,6 +306,60 @@ class MainWindow(QMainWindow, uic.loadUiType('main.ui')[0]):
             self.updateQueue()
             self.updateImageLabel(self.image)
 
+    def liquify(self):
+        half = 30
+        x, y, w, h = self.x1-half, self.y1-half, half*2, half*2
+
+        if abs(self.x1 - self.x2) > 5 or abs(self.y1 - self.y2) > 5:
+            self.tmpImage = self.image.copy()
+            roi = self.tmpImage[y:y+h, x:x+w].copy()
+            dst = roi.copy()
+
+            offset_cx1, offset_cy1 = self.x1-x, self.y1-y
+            offset_cx2, offset_cy2 = self.x2-x, self.y2-y
+
+            tri1 = [[[0, 0], [w, 0], [offset_cx1, offset_cy1]],
+                    [[0, 0], [0, h], [offset_cx1, offset_cy1]],
+                    [[w, 0], [offset_cx1, offset_cy1], [w, h]],
+                    [[0, h], [offset_cx1, offset_cy1], [w, h]]]
+            tri2 = [[[0, 0], [w, 0], [offset_cx2, offset_cy2]],
+                    [[0, 0], [0, h], [offset_cx2, offset_cy2]],
+                    [[w, 0], [offset_cx2, offset_cy2], [w, h]],
+                    [[0, h], [offset_cx2, offset_cy2], [w, h]]]
+
+            for i in range(4):
+                matrix = cv2.getAffineTransform(np.float32(tri1[i]), np.float32(tri2[i]))
+                warped = cv2.warpAffine(roi, matrix, (w, h), None, flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT_101)
+                mask = np.zeros((h, w), np.uint8)
+                cv2.fillConvexPoly(mask, np.int32(tri2[i]), (255, 255, 255))
+                warped = cv2.bitwise_and(warped, warped, mask=mask)
+                dst = cv2.bitwise_and(dst, dst, mask=cv2.bitwise_not(mask))
+                dst += warped
+
+            self.tmpImage[y:y+h, x:x+w] = dst
+
+    def rValueChanged(self):
+        if self.pixmap:
+            r, g, b = cv2.split(self.image)
+            self.tmpImage = cv2.merge((r+(cv2.split(self.orgImage)[0][0]-r[0]+self.rTrackbar.value()), g, b))
+            self.updateImageLabel(self.tmpImage)
+
+    def gValueChanged(self):
+        if self.pixmap:
+            r, g, b = cv2.split(self.image)
+            self.tmpImage = cv2.merge((r, g+(cv2.split(self.orgImage)[1][0]-g[0]+self.gTrackbar.value()), b))
+            self.updateImageLabel(self.tmpImage)
+
+    def bValueChanged(self):
+        if self.pixmap:
+            r, g, b = cv2.split(self.image)
+            self.tmpImage = cv2.merge((r, g, b+(cv2.split(self.orgImage)[2][0]-b[0]+self.bTrackbar.value())))
+            self.updateImageLabel(self.tmpImage)
+
+    def trackbarReleased(self):
+        if self.pixmap:
+            self.updateQueue()
+
     def undoButtonClicked(self):
         if self.undoQueue:
             self.redoQueue.appendleft(self.image)
@@ -365,28 +386,6 @@ class MainWindow(QMainWindow, uic.loadUiType('main.ui')[0]):
         self.undoQueue.clear()
         self.redoQueue.clear()
         self.initUi()
-
-    def rValueChanged(self):
-        if self.pixmap:
-            r, g, b = cv2.split(self.image)
-            self.tmpImage = cv2.merge((r+(cv2.split(self.orgImage)[0][0]-r[0]+self.rTrackbar.value()), g, b))
-            self.updateImageLabel(self.tmpImage)
-
-    def gValueChanged(self):
-        if self.pixmap:
-            r, g, b = cv2.split(self.image)
-            self.tmpImage = cv2.merge((r, g+(cv2.split(self.orgImage)[1][0]-g[0]+self.gTrackbar.value()), b))
-            self.updateImageLabel(self.tmpImage)
-
-    def bValueChanged(self):
-        if self.pixmap:
-            r, g, b = cv2.split(self.image)
-            self.tmpImage = cv2.merge((r, g, b+(cv2.split(self.orgImage)[2][0]-b[0]+self.bTrackbar.value())))
-            self.updateImageLabel(self.tmpImage)
-
-    def trackbarReleased(self):
-        if self.pixmap:
-            self.updateQueue()
 
     def updateImageLabel(self, image):
         self.pixmap = QPixmap.fromImage(QImage(image.data, image.shape[1], image.shape[0], QImage.Format_RGB888))
