@@ -28,6 +28,7 @@ class MainWindow(QMainWindow, uic.loadUiType('main.ui')[0]):
         self.button = -1
         self.color = None
 
+        ## ==================== 이벤트 연결 ====================
         self.imageLabel.mousePressEvent = self.mousePressed
         self.imageLabel.mouseMoveEvent = self.mouseMoved
         self.imageLabel.mouseReleaseEvent = self.mouseReleased
@@ -68,6 +69,7 @@ class MainWindow(QMainWindow, uic.loadUiType('main.ui')[0]):
         self.gTrackbar.setValue(0)
         self.bTrackbar.setValue(0)
 
+    ## ==================== 파일 불러오기/저장 ====================
     def fileOpen(self):
         self.fileName = QFileDialog.getOpenFileName(self, '𝘖𝘱𝘦𝘯 𝘍𝘪𝘭𝘦', '', '모든 파일(*);; PNG(*.png);; JPEG(*.jpg;*jpeg;*.jpe;*.jfif)')[0]
         if self.fileName:
@@ -85,6 +87,7 @@ class MainWindow(QMainWindow, uic.loadUiType('main.ui')[0]):
         else:
             QMessageBox.warning(self, '𝗪𝗮𝗿𝗻𝗶𝗻𝗴', '저장할 파일이 없습니다')
 
+    ## ==================== 마우스 이벤트 ====================
     def mousePressed(self, event):
         if self.pixmap:
             self.x1 = event.x()
@@ -120,6 +123,7 @@ class MainWindow(QMainWindow, uic.loadUiType('main.ui')[0]):
                 self.runMosaicButton()
                 self.setButtonAndCursor()
 
+    ## ==================== 색상 변경 ====================
     def paletteButtonClicked(self):
         if self.pixmap:
             color = QColorDialog.getColor()
@@ -155,6 +159,7 @@ class MainWindow(QMainWindow, uic.loadUiType('main.ui')[0]):
         self.updateQueue()
         self.updateImageLabel(self.image)
 
+    ## ==================== 랜덤 팔레트 ====================
     def randomButtonClicked(self):
         if self.pixmap:
             self.setButtonAndCursor()
@@ -164,12 +169,12 @@ class MainWindow(QMainWindow, uic.loadUiType('main.ui')[0]):
                 idx = np.abs(array - value).argmin()
                 return array[idx // 3]
 
-            ## 256가지 랜덤 색상 팔레트 생성
+            # 256가지 랜덤 색상 팔레트 생성
             randomPalette = random.sample(list((np.random.rand(300, 3) * 256).astype(np.uint8)), 254)
             randomPalette = np.append(randomPalette, np.array([[0, 0, 0]]), axis=0)
             randomPalette = np.append(randomPalette, np.array([[255, 255, 255]]), axis=0)
 
-            ## 가장 가까운 색상 적용
+            # 가장 가까운 색상 적용
             self.tmpImage = cv2.cvtColor(self.orgImage.copy(), cv2.COLOR_RGB2HSV)
             for i in range(self.tmpImage.shape[0]):
                 print('-----------------------')
@@ -185,6 +190,7 @@ class MainWindow(QMainWindow, uic.loadUiType('main.ui')[0]):
             self.updateQueue()
             self.updateImageLabel(self.image)
 
+    ## ==================== 그림자 제거 ====================
     def removeButtonClicked(self):
         if self.pixmap:
             self.setButtonAndCursor()
@@ -241,6 +247,7 @@ class MainWindow(QMainWindow, uic.loadUiType('main.ui')[0]):
             self.updateQueue()
             self.updateImageLabel(self.image)
 
+    ## ==================== 모자이크 ====================
     def mosaicButtonClicked(self):
         if self.pixmap:
             self.setButtonAndCursor(3, QtCore.Qt.OpenHandCursor)
@@ -248,13 +255,13 @@ class MainWindow(QMainWindow, uic.loadUiType('main.ui')[0]):
     def runMosaicButton(self):
         w, h = abs(self.x1 - self.x2), abs(self.y1 - self.y2)
         if w >= 15 and h >= 15:
-            ## roi 지정
+            # roi 지정
             src = self.image.copy()
             roi = src[min(self.y1, self.y2):max(self.y1, self.y2), min(self.x1, self.x2):max(self.x1, self.x2)]
             roi = cv2.resize(roi, (w//15, h//15))
             roi = cv2.resize(roi, (w, h), interpolation=cv2.INTER_AREA)
             src[min(self.y1, self.y2):max(self.y1, self.y2), min(self.x1, self.x2):max(self.x1, self.x2)] = roi
-            ## mask 생성
+            # mask 생성
             size = (abs(self.x1 - self.x2) // 2, abs(self.y1 - self.y2) // 2)
             center = (min(self.x1, self.x2) + size[0], min(self.y1, self.y2) + size[1])
             mask = np.zeros_like(self.image)
@@ -263,18 +270,20 @@ class MainWindow(QMainWindow, uic.loadUiType('main.ui')[0]):
             self.updateQueue()
             self.updateImageLabel(self.image)
 
+    ## ==================== 자동 보정 ====================
     def correctionButtonClicked(self):
         if self.pixmap:
             self.setButtonAndCursor()
-            ## 이미지 평활화
+            # 이미지 평활화
             y, cr, cb = cv2.split(cv2.cvtColor(self.orgImage.copy(), cv2.COLOR_RGB2YCrCb))
             self.tmpImage = cv2.cvtColor(cv2.merge([cv2.equalizeHist(y), cr, cb]), cv2.COLOR_YCrCb2RGB)
-            ## 이미지 선명하게
+            # 이미지 선명하게
             kernel = np.array([[0, -1, 0], [-1, 5, -1], [0, -1, 0]])
             self.tmpImage = cv2.filter2D(self.tmpImage, -1, kernel)
             self.updateQueue()
             self.updateImageLabel(self.image)
 
+    ## ==================== 외곽선 검출 ====================
     def edgeButtonClicked(self):
         if self.pixmap:
             self.setButtonAndCursor()
@@ -284,6 +293,7 @@ class MainWindow(QMainWindow, uic.loadUiType('main.ui')[0]):
             self.updateQueue()
             self.updateImageLabel(self.image)
 
+    ## ==================== 카툰 필터 ====================
     def cartoonButtonClicked(self):
         if self.pixmap:
             self.setButtonAndCursor()
@@ -296,6 +306,7 @@ class MainWindow(QMainWindow, uic.loadUiType('main.ui')[0]):
             self.updateQueue()
             self.updateImageLabel(self.image)
 
+    ## ==================== 스케치 필터 ====================
     def sketchButtonClicked(self):
         if self.pixmap:
             self.setButtonAndCursor()
@@ -306,6 +317,7 @@ class MainWindow(QMainWindow, uic.loadUiType('main.ui')[0]):
             self.updateQueue()
             self.updateImageLabel(self.image)
 
+    ## ==================== 리퀴파이 ====================
     def liquify(self):
         half = 30
         x, y, w, h = self.x1-half, self.y1-half, half*2, half*2
@@ -338,6 +350,7 @@ class MainWindow(QMainWindow, uic.loadUiType('main.ui')[0]):
 
             self.tmpImage[y:y+h, x:x+w] = dst
 
+    ## ==================== RGB 조절 ====================
     def rValueChanged(self):
         if self.pixmap:
             r, g, b = cv2.split(self.image)
@@ -360,6 +373,7 @@ class MainWindow(QMainWindow, uic.loadUiType('main.ui')[0]):
         if self.pixmap:
             self.updateQueue()
 
+    ## ==================== 실행 취소/다시 실행/원본 복구 ====================
     def undoButtonClicked(self):
         if self.undoQueue:
             self.redoQueue.appendleft(self.image)
@@ -387,10 +401,6 @@ class MainWindow(QMainWindow, uic.loadUiType('main.ui')[0]):
         self.redoQueue.clear()
         self.initUi()
 
-    def updateImageLabel(self, image):
-        self.pixmap = QPixmap.fromImage(QImage(image.data, image.shape[1], image.shape[0], QImage.Format_RGB888))
-        self.imageLabel.setPixmap(self.pixmap)
-
     def updateQueue(self):
         self.undoQueue.append(self.image)
         self.image = self.tmpImage.copy()
@@ -401,6 +411,12 @@ class MainWindow(QMainWindow, uic.loadUiType('main.ui')[0]):
         if not self.returnButton.isEnabled():
             self.returnButton.setEnabled(True)
 
+    ## ==================== 이미지 라벨 변경 ====================
+    def updateImageLabel(self, image):
+        self.pixmap = QPixmap.fromImage(QImage(image.data, image.shape[1], image.shape[0], QImage.Format_RGB888))
+        self.imageLabel.setPixmap(self.pixmap)
+
+    ## ==================== 마우스 커서 ====================
     def setButtonAndCursor(self, button=-1, cursor=QtCore.Qt.ArrowCursor):
         self.button = button
         self.imageLabel.setCursor(QtGui.QCursor(cursor))
