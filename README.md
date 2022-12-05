@@ -28,7 +28,7 @@
 <img height="350" alt="스크린샷_20221205_103801" src="https://user-images.githubusercontent.com/69310195/205685031-de71c491-4f6d-4da3-8898-244b17ff9b6c.png"> <img height="350" alt="스크린샷_20221205_103801" src="https://user-images.githubusercontent.com/69310195/205684893-eaad9e1f-865a-4206-ac1b-9003e58e945b.png">
 
 ### 모자이크   
-<img height="250" alt="스크린샷_20221205_103801" src="https://user-images.githubusercontent.com/69310195/205685763-615eb21a-3946-4504-98d3-52dd6deef5db.png">  <img height="250" alt="스크린샷_20221205_103851" src="https://user-images.githubusercontent.com/69310195/205685911-3dfe20fb-3d15-4468-ad5d-0cc3701df431.png">
+<img height="225" alt="스크린샷_20221205_103801" src="https://user-images.githubusercontent.com/69310195/205685763-615eb21a-3946-4504-98d3-52dd6deef5db.png">  <img height="225" alt="스크린샷_20221205_103851" src="https://user-images.githubusercontent.com/69310195/205685911-3dfe20fb-3d15-4468-ad5d-0cc3701df431.png">
 
 ### 자동 보정   
 <img height="250" alt="스크린샷_20221205_105128" src="https://user-images.githubusercontent.com/69310195/205685515-f7c46c5f-3c4b-4b77-ade0-dd2c7c308dd5.png">  <img height="250" alt="스크린샷_20221205_105147" src="https://user-images.githubusercontent.com/69310195/205685530-28be6a02-d38b-4057-a461-4af9b600b8f9.png">
