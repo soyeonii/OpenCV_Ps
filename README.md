@@ -1,4 +1,4 @@
-# OpenCV 포토샵 프로젝트
+# OpenCV_Ps
 
 <p align="center">
   <br>
